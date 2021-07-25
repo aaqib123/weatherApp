@@ -8,7 +8,7 @@
         <div class="icon">
           <img [src]="iconCode[cityData[0]?.list[0]?.weather[0]?.id]" />
         </div>
-        <div>
+        <div class="top-details">
           <h3>{{cityData[0]?.list[0]?.temp?.day | number : '1.0-0'}} C</h3>
           <p>{{cityData[0]?.list[0]?.weather[0]?.description | titlecase}}</p>
           <p>

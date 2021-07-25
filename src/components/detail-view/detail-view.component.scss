@@ -6,12 +6,20 @@ mat-card {
 }
 
 .detail-container {
+  .header{
+    padding: 1rem;
+  }
   .content {
     display: flex;
     flex-direction: column;
     .top-row {
       display: flex;
       flex-direction: row;
+      background: #fffef9;
+      @media (max-width: $min-desktop) {
+        flex-direction: column;
+        align-items: center;
+      }
       .icon {
         width: 10rem;
         height: 10rem;
@@ -19,6 +27,9 @@ mat-card {
           width: 100%;
           height: 100%;
         }
+      }
+      .top-details {
+        padding: 1rem;
       }
     }
 

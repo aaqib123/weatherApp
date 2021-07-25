@@ -3,8 +3,8 @@
   display: flex;
   height: 100%;
   padding: 1rem;
-  background: #7fffd4;
   @media (max-width: $max-mobile) {
+    display: grid;
     flex-direction: column;
     width: auto;
   }
@@ -15,7 +15,7 @@
     @media (max-width: $max-mobile) {
       width: auto;
       margin: 0;
-      height: 20rem;
+      max-height: 50vh;
     }
   }
   .parent-detail {
@@ -23,7 +23,6 @@
     margin: 1rem;
     @media (max-width: $max-mobile) {
       width: auto;
-      height: 100%;
       margin: 1rem 0 0 0;
     }
   }

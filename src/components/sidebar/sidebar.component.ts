@@ -7,7 +7,9 @@ import {
   AddCityAction,
   DelCityAction,
   RefreshCityAction,
+  DelAllAction,
 } from 'src/store/weather.actions';
+import { initialState } from 'src/store/weather.models';
 import { AppState, selectCityData } from 'src/store/weather.selector';
 
 @Component({
@@ -17,6 +19,7 @@ import { AppState, selectCityData } from 'src/store/weather.selector';
 })
 export class SidebarComponent implements OnInit {
   public form: FormGroup;
+  public cityCount: number = 0;
   public allCityData$: Observable<any> | undefined;
   protected subscriptions: Subscription[] = [];
 
@@ -31,9 +34,11 @@ export class SidebarComponent implements OnInit {
 
     this.allCityData$ = this.store.select(selectCityData);
     this.subscriptions.push(
-    this.allCityData$.subscribe((cities) => {
-      cities.length > 0 && this.router.navigate([cities[0]?.city.id]);
-    }));
+      this.allCityData$.subscribe((cities) => {
+        this.cityCount = cities.length;
+        cities.length > 0 && this.router.navigate([cities[0]?.city.id]);
+      })
+    );
   }
 
   ngOnInit(): void {}
@@ -70,6 +75,10 @@ export class SidebarComponent implements OnInit {
         data: cityID,
       })
     );
+  }
+
+  public deleteAllCities() {
+    this.store.dispatch(DelAllAction());
   }
 
   ngOnDestroy(): void {

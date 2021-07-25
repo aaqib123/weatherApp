@@ -1,5 +1,5 @@
-import { createAction, props, union } from "@ngrx/store";
-import { WeatherObject } from "./weather.models";
+import { createAction, props, union } from '@ngrx/store';
+import { WeatherObject } from './weather.models';
 
 enum WeatherActionEnum {
   ADD_CITY = '[ADD] Add City',
@@ -9,9 +9,9 @@ enum WeatherActionEnum {
   REFRESH_CITY_SUCCESS = '[UPDATE] Refresh City success',
   REFRESH_CITY_FAILURE = '[UPDATE] Refresh City failure',
   DELETE_CITY = '[DELETE] Delete City',
-  DELETE_CITY_SUCCESS = '[DELETE] Delete City success'
+  DELETE_CITY_SUCCESS = '[DELETE] Delete City success',
+  DELETE_ALL = '[DELETE_ALL] Delete All success',
 }
-
 
 export const AddCityAction = createAction(
   WeatherActionEnum.ADD_CITY,
@@ -27,7 +27,7 @@ export const AddCityFailureAction = createAction(
 );
 export const RefreshCityAction = createAction(
   WeatherActionEnum.REFRESH_CITY,
-  props<{ data: string,id:number }>()
+  props<{ data: string; id: number }>()
 );
 export const RefreshCitySuccessAction = createAction(
   WeatherActionEnum.REFRESH_CITY_SUCCESS,
@@ -44,7 +44,7 @@ export const DelCityAction = createAction(
 export const DelCitySuccessAction = createAction(
   WeatherActionEnum.DELETE_CITY_SUCCESS
 );
-
+export const DelAllAction = createAction(WeatherActionEnum.DELETE_ALL);
 
 const actions = union({
   AddCityAction,
@@ -52,6 +52,10 @@ const actions = union({
   AddCityFailureAction,
   DelCityAction,
   DelCitySuccessAction,
+  RefreshCityAction,
+  RefreshCitySuccessAction,
+  RefreshCityFailureAction,
+  DelAllAction,
 });
 
 export type WeatherActionsType = typeof actions;

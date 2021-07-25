@@ -18,7 +18,12 @@
       </ng-template>
     </mat-list-option>
   </mat-selection-list>
+
+  <div class="clear-all">
+    <button *ngIf="cityCount > 0" mat-button color="warn" (click)="deleteAllCities()">Delete all</button>
+  </div>
 </div>
+
 
 <ng-template #cityList let-cityData="data">
   <div class="cityoption-container">

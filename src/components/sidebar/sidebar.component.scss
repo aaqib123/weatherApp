@@ -4,6 +4,9 @@
   padding: 1rem;
   height: 90%;
   overflow: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 
   .bottom-row {
     .cityItems {
@@ -12,7 +15,7 @@
       height: auto;
       .cityoption-container {
         display: flex;
-        justify-content: space-between;
+        // justify-content: space-between;
         align-items: center;
         .list-text {
           display: flex;
@@ -22,9 +25,13 @@
 
           @media (max-width: $max-mobile) {
             flex-direction: column;
+            align-items: flex-start;
           }
           > P {
             margin: 0;
+            @media (max-width: $max-mobile) {
+              margin: 0.5rem 0 0 0;
+            }
           }
 
           .seperator {
@@ -33,10 +40,19 @@
             }
           }
         }
-        .btn-list{
-
+        .btn-list {
+          margin-left: auto;
         }
       }
     }
+  }
+}
+.clear-all {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: auto;
+  button {
+    margin-top: 1rem;
+    width: 100%;
   }
 }
