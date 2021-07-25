@@ -36,7 +36,6 @@ export class SidebarComponent implements OnInit {
     this.subscriptions.push(
       this.allCityData$.subscribe((cities) => {
         this.cityCount = cities.length;
-        cities.length > 0 && this.router.navigate([cities[0]?.city.id]);
       })
     );
   }

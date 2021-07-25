@@ -16,6 +16,7 @@ import { WeatherService } from '../app/weather.service';
 import { Store } from '@ngrx/store';
 import { AppState, selectCityData } from './weather.selector';
 import { CleanResultInt, WeatherObject } from './weather.models';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class WeatherEffects {
@@ -40,6 +41,7 @@ export class WeatherEffects {
                 );
               }
             }
+            this.router.navigate([result.city.id])
             return allActions.AddCitySuccessAction({ data: result });
           }),
           catchError((error) => of(allActions.AddCityFailureAction(error)))
@@ -72,6 +74,7 @@ export class WeatherEffects {
   constructor(
     private store: Store<AppState>,
     private actions$: Actions<allActions.WeatherActionsType>,
-    private weatherService: WeatherService
+    private weatherService: WeatherService,
+    private router:Router
   ) {}
 }
