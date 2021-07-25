@@ -1,0 +1,42 @@
+@import "../../variables";
+
+.sidebar-container {
+  padding: 1rem;
+  height: 90%;
+  overflow: auto;
+
+  .bottom-row {
+    .cityItems {
+      background-color: #e9f7e9;
+      box-shadow: -4px 4px 0 0px rgb(0 0 0 / 10%);
+      height: auto;
+      .cityoption-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .list-text {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          padding: 1rem;
+
+          @media (max-width: $max-mobile) {
+            flex-direction: column;
+          }
+          > P {
+            margin: 0;
+          }
+
+          .seperator {
+            @media (max-width: $max-mobile) {
+              display: none;
+            }
+          }
+        }
+        .btn-list{
+
+        }
+      }
+    }
+  }
+}

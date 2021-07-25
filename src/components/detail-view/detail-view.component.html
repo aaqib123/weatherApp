@@ -1,1 +1,57 @@
-<p>detail-view works!</p>
+<ng-container *ngIf="cityData$ | async as cityData;">
+  <div class="detail-container" *ngIf="!!cityData[0]?.city.name;else noCity;">
+    <div class="header" *ngIf="!!cityData[0]?.city">
+      <h2>{{ cityData[0]?.city.name }}</h2>
+    </div>
+    <div class="content" *ngIf="!!cityData[0]?.city">
+      <mat-card class="top-row">
+        <div class="icon">
+          <img [src]="iconCode[cityData[0]?.list[0]?.weather[0]?.id]" />
+        </div>
+        <div>
+          <h3>{{cityData[0]?.list[0]?.temp?.day | number : '1.0-0'}} C</h3>
+          <p>{{cityData[0]?.list[0]?.weather[0]?.description | titlecase}}</p>
+          <p>
+            Wind: {{cityData[0]?.list[0].speed + 'ms' + ' ' + cityData[0]?.list[0].deg + 'deg'}}
+          </p>
+          <p>
+            Pressure: {{cityData[0]?.list[0].pressure + 'ms'}}
+          </p>
+        </div>
+      </mat-card>
+
+      <div class="futureCards-container">
+        <mat-card *ngFor="let day of cityData[0]?.list" class="futureCards">
+          <ng-template [ngTemplateOutlet]="image" [ngTemplateOutletContext]="{
+              date: day?.dt,
+              temp: day?.temp,
+              weather: day?.weather[0]
+            }">
+          </ng-template>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+
+</ng-container>
+
+
+<ng-template #image let-date="date" let-temp="temp" let-weather="weather">
+  <div class="card-content">
+    <div>{{ date * 1000 | date: "dd" }}</div>
+    <div>{{ date * 1000 | date: "EEEE" }}</div>
+    <div>
+      <img [src]="iconCode[weather.id]" />
+    </div>
+    <div>{{ temp.day | number : '1.0-0'}} C</div>
+  </div>
+</ng-template>
+
+
+<ng-template #noCity let-date="date" let-temp="temp" let weather="weather">
+  <div class="empty-content">
+    <h2>
+      Please Select City
+    </h2>
+  </div>
+</ng-template>

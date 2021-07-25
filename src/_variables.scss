@@ -1,0 +1,9 @@
+
+
+$max-mobile: 767px;
+$min-desktop: 1024px;
+
+@mixin flex-row-center {
+  display: flex;
+  justify-content: center;
+}

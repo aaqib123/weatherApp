@@ -1,11 +1,8 @@
 <div class="parent-container">
-  <div class="parent-sidebar">
+  <mat-card class="parent-sidebar">
     <app-sidebar></app-sidebar>
-  </div>
-  <div class="parent-detail">
-    <app-detail-view></app-detail-view>
-  </div>
+  </mat-card>
+  <mat-card class="parent-detail">
+      <router-outlet></router-outlet>
+  </mat-card>
 </div>
-
-
-<!-- <router-outlet></router-outlet> -->

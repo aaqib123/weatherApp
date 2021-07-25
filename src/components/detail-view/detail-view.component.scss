@@ -1,0 +1,65 @@
+@import "../../_variables.scss";
+
+mat-card {
+  box-shadow: -4px 4px 0 0px rgb(0 0 0 / 5%) !important;
+  border: 0;
+}
+
+.detail-container {
+  .content {
+    display: flex;
+    flex-direction: column;
+    .top-row {
+      display: flex;
+      flex-direction: row;
+      .icon {
+        width: 10rem;
+        height: 10rem;
+        img {
+          width: 100%;
+          height: 100%;
+        }
+      }
+    }
+
+    .futureCards-container {
+      display: flex;
+      flex-wrap: wrap;
+      margin: 1rem 0;
+      justify-content: space-between;
+      @media (max-width: $min-desktop) {
+        justify-content: space-around;
+      }
+
+      .futureCards {
+        @include flex-row-center;
+        width: 5rem;
+        height: 8rem;
+        margin: 0 1rem 1rem 0;
+        padding: 0.5rem;
+        box-shadow: none !important;
+        &:first-child {
+          display: none;
+        }
+        .card-content {
+          @include flex-row-center;
+          flex-direction: column;
+          align-items: center;
+        }
+      }
+    }
+  }
+}
+
+.empty-content {
+  width: 100%;
+  height: 100%;
+  align-items: center;
+
+  @include flex-row-center;
+
+  background-image: url("/assets/clouds.png");
+  background-repeat: no-repeat;
+  background-position: bottom;
+  background-size: contain;
+}

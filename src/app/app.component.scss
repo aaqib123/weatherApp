@@ -1,0 +1,30 @@
+@import "../variables";
+.parent-container {
+  display: flex;
+  height: 100%;
+  padding: 1rem;
+  background: #7fffd4;
+  @media (max-width: $max-mobile) {
+    flex-direction: column;
+    width: auto;
+  }
+
+  .parent-sidebar {
+    width: 40%;
+    margin: 1rem;
+    @media (max-width: $max-mobile) {
+      width: auto;
+      margin: 0;
+      height: 20rem;
+    }
+  }
+  .parent-detail {
+    width: 60%;
+    margin: 1rem;
+    @media (max-width: $max-mobile) {
+      width: auto;
+      height: 100%;
+      margin: 1rem 0 0 0;
+    }
+  }
+}
