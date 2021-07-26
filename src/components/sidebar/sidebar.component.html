@@ -1,10 +1,10 @@
 <div class="sidebar-container">
   <div class="top-row">
     <form [formGroup]="form">
-      <mat-form-field class="example-form-field" appearance="fill">
+      <mat-form-field appearance="fill">
         <mat-label>Enter City</mat-label>
         <input matInput type="text" formControlName="cityName" [value]="form?.get('cityName')?.value | titlecase">
-        <button matSuffix mat-icon-button aria-label="Clear" (click)="addCity()">
+        <button matSuffix mat-icon-button aria-label="Add city" (click)="addCity()">
           <mat-icon>add</mat-icon>
         </button>
       </mat-form-field>
@@ -23,7 +23,6 @@
     <button *ngIf="cityCount > 0" mat-button color="warn" (click)="deleteAllCities()">Delete all</button>
   </div>
 </div>
-
 
 <ng-template #cityList let-cityData="data">
   <div class="cityoption-container">

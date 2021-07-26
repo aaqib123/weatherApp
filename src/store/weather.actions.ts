@@ -55,7 +55,7 @@ const actions = union({
   RefreshCityAction,
   RefreshCitySuccessAction,
   RefreshCityFailureAction,
-  DelAllAction,
+  DelAllAction
 });
 
 export type WeatherActionsType = typeof actions;

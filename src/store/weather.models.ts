@@ -1,27 +1,8 @@
 export const reducerName = 'weather';
-
-export interface WeatherState {
-  data: any;
-  loading: boolean;
-  error: Error | undefined;
-}
-
-export interface CleanResultInt {
-  status: boolean;
-  error: string;
-}
-
-export const initialState: WeatherState = {
-  data: [],
-  loading: false,
-  error: undefined,
-};
-
 export interface Coord {
   lon: number;
   lat: number;
 }
-
 export interface City {
   id: number;
   name: string;
@@ -77,4 +58,16 @@ export interface WeatherObject {
   message: number;
   cnt: number;
   list: List[];
+}
+
+export interface WeatherState {
+  data: WeatherObject[];
+  loading: boolean;
+  error: Error | undefined;
+}
+
+export const initialState: WeatherState = {
+  data: [],
+  loading: false,
+  error: undefined
 }

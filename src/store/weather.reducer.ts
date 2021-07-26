@@ -1,6 +1,6 @@
 import { Action, createReducer, on, State } from '@ngrx/store';
 import * as allActions from './weather.actions';
-import { initialState, WeatherState } from './weather.models';
+import { initialState, WeatherObject, WeatherState } from './weather.models';
 
 export const wReducer = createReducer(
   initialState,
@@ -29,8 +29,8 @@ export const wReducer = createReducer(
     };
   }),
   on(allActions.RefreshCitySuccessAction, (state, payload) => {
-    let index = state.data.findIndex(
-      (cities: any) => cities.city.id == payload.data.city.id
+    const index = state.data.findIndex(
+      (cities: WeatherObject) => cities.city.id === payload.data.city.id
     );
     // let a = [ ...state.data.filter( (cities:any) => cities.city.id !== payload.data.city.id)];
     return {

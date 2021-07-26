@@ -4,20 +4,16 @@ import {
   map,
   mergeMap,
   catchError,
-  take,
-  switchMap,
   withLatestFrom,
-  tap,
 } from 'rxjs/operators';
 
-import { of, throwError } from 'rxjs';
+import { of } from 'rxjs';
 import * as allActions from './weather.actions';
-import { WeatherService } from '../app/weather.service';
+import { WeatherService } from '../services/weather.service';
 import { Store } from '@ngrx/store';
 import { AppState, selectCityData } from './weather.selector';
-import { CleanResultInt, WeatherObject } from './weather.models';
+import { WeatherObject } from './weather.models';
 import { Router } from '@angular/router';
-
 @Injectable()
 export class WeatherEffects {
   addCity$ = createEffect(() =>
@@ -27,8 +23,8 @@ export class WeatherEffects {
       mergeMap(([payload, allCities]) => {
         return this.weatherService.getWeatherForCity(payload.data).pipe(
           map((result: WeatherObject) => {
-            let newcityExists = allCities.findIndex(
-              (cities) => cities.city.id == result.city.id
+            const newcityExists = allCities.findIndex(
+              (cities) => cities.city.id === result.city.id
             );
             if (newcityExists > -1) {
               throw { error: { message: 'City exists already' } };
@@ -36,12 +32,12 @@ export class WeatherEffects {
               if (allCities.length >= 8) {
                 this.store.dispatch(
                   allActions.DelCityAction({
-                    data: allCities[allCities.length - 1].city.id,
+                    data: allCities[allCities.length - 1].city.id
                   })
                 );
               }
             }
-            this.router.navigate([result.city.id])
+            this.router.navigate([result.city.id]);
             return allActions.AddCitySuccessAction({ data: result });
           }),
           catchError((error) => of(allActions.AddCityFailureAction(error)))
@@ -71,7 +67,7 @@ export class WeatherEffects {
     )
   );
 
-  constructor(
+  constructor (
     private store: Store<AppState>,
     private actions$: Actions<allActions.WeatherActionsType>,
     private weatherService: WeatherService,
