@@ -1,4 +1,4 @@
-import { Action, createReducer, on, State } from '@ngrx/store';
+import { Action, createReducer, on } from '@ngrx/store';
 import * as allActions from './weather.actions';
 import { initialState, WeatherObject, WeatherState } from './weather.models';
 

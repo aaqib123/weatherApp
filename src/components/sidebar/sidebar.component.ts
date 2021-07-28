@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -9,6 +9,7 @@ import {
   RefreshCityAction,
   DelAllAction
 } from 'src/store/weather.actions';
+import { WeatherObject } from 'src/store/weather.models';
 import { AppState, selectCityData } from 'src/store/weather.selector';
 
 @Component({
@@ -16,11 +17,11 @@ import { AppState, selectCityData } from 'src/store/weather.selector';
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.scss']
 })
-export class SidebarComponent implements OnInit {
+export class SidebarComponent {
   public form: FormGroup;
   public cityCount: number = 0;
-  public allCityData$: Observable<any> | undefined;
-  protected subscriptions: Subscription[] = [];
+  public allCityData$: Observable<WeatherObject[]>;
+  private subscriptions: Subscription[] = [];
 
   constructor (
     private fb: FormBuilder,
@@ -39,10 +40,8 @@ export class SidebarComponent implements OnInit {
     );
   }
 
-  ngOnInit (): void {}
-
   public addCity () {
-    if (this.form.controls.cityName.value) {
+    if (this.form.controls.cityName.value.length > 1) {
       this.store.dispatch(
         AddCityAction({
           data: this.form.controls.cityName.value

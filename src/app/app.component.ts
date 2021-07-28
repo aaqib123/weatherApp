@@ -10,14 +10,14 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit, OnDestroy {
-  protected subscriptions: Subscription[] = [];
+  private subscriptions: Subscription[] = [];
 
   constructor(private store: Store<AppState>, private _snackBar: MatSnackBar) {}
 
   ngOnInit(): void {
     this.subscriptions.push(
       this.store.select(selectError).subscribe((error) => {
-        if (error?.message) {
+        if (!!error?.message) {
           this._snackBar.open(error?.message || '', 'close', {
             duration: 5000,
             horizontalPosition: 'center',
