@@ -44,7 +44,7 @@ export const DelCityAction = createAction(
 export const DelCitySuccessAction = createAction(
   WeatherActionEnum.DELETE_CITY_SUCCESS
 );
-export const DelAllAction = createAction(WeatherActionEnum.DELETE_ALL);
+export const DelAllCitiesAction = createAction(WeatherActionEnum.DELETE_ALL);
 
 const actions = union({
   AddCityAction,
@@ -55,7 +55,7 @@ const actions = union({
   RefreshCityAction,
   RefreshCitySuccessAction,
   RefreshCityFailureAction,
-  DelAllAction
+  DelAllCitiesAction
 });
 
 export type WeatherActionsType = typeof actions;

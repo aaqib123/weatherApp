@@ -1,8 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
-import { AppState, selectError } from 'src/store/weather.selector';
+import { selectError } from 'src/store/weather.selector';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { AppState } from 'src/store/weather.models';
 
 @Component({
   selector: 'app-root',
@@ -16,6 +17,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.subscriptions.push(
+      // show snakcbar on error
       this.store.select(selectError).subscribe((error) => {
         if (!!error?.message) {
           this._snackBar.open(error?.message || '', 'close', {

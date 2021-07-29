@@ -1,9 +1,5 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
-import { WeatherObject, WeatherState } from './weather.models';
-
-export interface AppState {
-  weatherState: WeatherState;
-}
+import { AppState, WeatherObject, WeatherState } from './weather.models';
 
 export const fullState = (state: AppState) => state.weatherState;
 
@@ -16,5 +12,5 @@ export const selectCityLength: MemoizedSelector<AppState, number> =
 export const selectError: MemoizedSelector<AppState, Error | undefined> =
   createSelector(fullState, (state: WeatherState) => state.error);
 
-export const selectIsLoading: MemoizedSelector<AppState, boolean> =
+export const isLoading: MemoizedSelector<AppState, boolean> =
   createSelector(fullState, (state: WeatherState) => state.loading);

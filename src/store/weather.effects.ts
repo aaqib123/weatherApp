@@ -1,19 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import {
-  map,
-  mergeMap,
-  catchError,
-  withLatestFrom,
-} from 'rxjs/operators';
-
+import { map, mergeMap, catchError, withLatestFrom } from 'rxjs/operators';
 import { of } from 'rxjs';
 import * as allActions from './weather.actions';
 import { WeatherService } from '../services/weather.service';
 import { Store } from '@ngrx/store';
-import { AppState, selectCityData } from './weather.selector';
-import { WeatherObject } from './weather.models';
+import { selectCityData } from './weather.selector';
+import { AppState, WeatherObject } from './weather.models';
 import { Router } from '@angular/router';
+import { weatherAppConfig } from 'src/config/app-config';
 @Injectable()
 export class WeatherEffects {
   addCity$ = createEffect(() =>
@@ -26,13 +21,17 @@ export class WeatherEffects {
             const newcityExists = allCities.findIndex(
               (cities) => cities.city.id === result.city.id
             );
+
+            //if new city exists in store, throw an error
             if (newcityExists > -1) {
-              throw { error: { message: 'City exists already' } };
+              this.router.navigate([result.city.id]);
+              throw { error: { message: weatherAppConfig.CITY_EXISTS_MSG } };
             } else {
-              if (allCities.length >= 8) {
+               // if cities in store exceed max limit, delete last city and then add new city
+              if (allCities.length >= weatherAppConfig.MAX_CITY_COUNT) {
                 this.store.dispatch(
                   allActions.DelCityAction({
-                    data: allCities[allCities.length - 1].city.id
+                    data: allCities[allCities.length - 1].city.id,
                   })
                 );
               }
@@ -67,10 +66,10 @@ export class WeatherEffects {
     )
   );
 
-  constructor (
+  constructor(
     private store: Store<AppState>,
     private actions$: Actions<allActions.WeatherActionsType>,
     private weatherService: WeatherService,
-    private router:Router
+    private router: Router
   ) {}
 }

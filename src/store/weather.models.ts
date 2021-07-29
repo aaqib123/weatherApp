@@ -1,4 +1,3 @@
-export const reducerName = 'weather';
 export interface Coord {
   lon: number;
   lat: number;
@@ -65,9 +64,6 @@ export interface WeatherState {
   loading: boolean;
   error: Error | undefined;
 }
-
-export const initialState: WeatherState = {
-  data: [],
-  loading: false,
-  error: undefined
+export interface AppState {
+  weatherState: WeatherState;
 }

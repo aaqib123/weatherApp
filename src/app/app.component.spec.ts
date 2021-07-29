@@ -1,9 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AppComponent } from './app.component';
-import { observable, of, ReplaySubject } from 'rxjs';
+import { of } from 'rxjs';
 
 const mockStore2 = {
   select: jasmine

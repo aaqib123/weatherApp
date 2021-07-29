@@ -1,28 +1,23 @@
-<ng-container *ngIf="cityData$ | async as cityData;">
-  <div class="detail-container" *ngIf="!!cityData[0]?.city.name;else noCity;">
-    <div class="header" *ngIf="!!cityData[0]?.city">
-      <h2>{{ cityData[0]?.city.name }}</h2>
+<ng-container *ngIf="!(isLoading$ | async) && (cityData$ | async) as cityData; else noCityAdded">
+  <div class="detail-container">
+    <div class="header">
+      <h2>{{ cityData?.city.name }}</h2>
+      <button mat-icon-button (click)="refreshCity(cityData.city.name, cityData.city.id)">
+        <mat-icon>refresh</mat-icon>
+      </button>
     </div>
-    <div class="content" *ngIf="!!cityData[0]?.city">
+    <div class="content">
       <mat-card class="top-row">
-        <div class="icon">
-          <img [src]="iconCode[cityData[0]?.list[0]?.weather[0]?.id]" />
-        </div>
-        <div class="top-details">
-          <h3>{{cityData[0]?.list[0]?.temp?.day | number : '1.0-0'}} C</h3>
-          <p>{{cityData[0]?.list[0]?.weather[0]?.description | titlecase}}</p>
-          <p>
-            Wind: {{cityData[0]?.list[0].speed + 'ms' + ' ' + cityData[0]?.list[0].deg + 'deg'}}
-          </p>
-          <p>
-            Pressure: {{cityData[0]?.list[0].pressure + 'ms'}}
-          </p>
-        </div>
+        <ng-template [ngTemplateOutlet]="todaysCard" [ngTemplateOutletContext]="{
+            weather: cityData.list[0].weather[0],
+            dataList: cityData.list[0]
+          }">
+        </ng-template>
       </mat-card>
 
       <div class="futureCards-container">
-        <mat-card *ngFor="let day of cityData[0]?.list" class="futureCards">
-          <ng-template [ngTemplateOutlet]="image" [ngTemplateOutletContext]="{
+        <mat-card *ngFor="let day of cityData?.list" class="futureCards">
+          <ng-template [ngTemplateOutlet]="dailyCards" [ngTemplateOutletContext]="{
               date: day?.dt,
               temp: day?.temp,
               weather: day?.weather[0]
@@ -32,26 +27,38 @@
       </div>
     </div>
   </div>
-
 </ng-container>
 
+<ng-template #todaysCard let-dataList="dataList" let-weatherDesc="weather">
+  <div class="icon">
+    <img [src]="iconCode[dataList.weather[0]?.id]" />
+  </div>
+  <div class="top-details">
+    <h3>
+      {{ dataList.temp?.day | number: "1.0-0" }}<sup>{{ units.tempUnit }}</sup>
+    </h3>
+    <p>{{ weatherDesc.description | titlecase }}</p>
+    <p>
+      <b>Wind:</b>
+      {{ dataList.speed + units.speedUnit + " " + dataList.deg + units.directionUnit}}
+    </p>
+    <p><b>Pressure:</b> {{ dataList.pressure }}</p>
+  </div>
+</ng-template>
 
-<ng-template #image let-date="date" let-temp="temp" let-weather="weather">
+<ng-template #dailyCards let-date="date" let-temp="temp" let-weather="weather">
   <div class="card-content">
     <div>{{ date * 1000 | date: "dd" }}</div>
     <div>{{ date * 1000 | date: "EEEE" }}</div>
     <div>
       <img [src]="iconCode[weather.id]" />
     </div>
-    <div>{{ temp.day | number : '1.0-0'}} C</div>
+    <div>{{ temp.day | number: "1.0-0" }} C</div>
   </div>
 </ng-template>
 
-
-<ng-template #noCity let-date="date" let-temp="temp" let weather="weather">
+<ng-template #noCityAdded let-date="date" let-temp="temp" let weather="weather">
   <div class="empty-content">
-    <h2>
-      Please Select City
-    </h2>
+    <h2>{{(isLoading$ | async) ? 'Loading...': 'Please Add or Select a City' }}</h2>
   </div>
 </ng-template>

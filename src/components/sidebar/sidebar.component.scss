@@ -1,12 +1,11 @@
 @import "../../variables";
+@include fade-in;
 
 .sidebar-container {
+  @include flex-column;
   padding: 1rem;
   height: 90%;
   overflow: auto;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
 
   .bottom-row {
     .cityItems {
@@ -15,30 +14,48 @@
       height: auto;
       .cityoption-container {
         display: flex;
-        // justify-content: space-between;
         align-items: center;
+        .list-icon{
+          height: 3rem;
+        }
         .list-text {
           display: flex;
           justify-content: center;
           align-items: center;
-          padding: 1rem;
+          padding: 1rem 0;
+          min-width: 8rem;
 
-          @media (max-width: $max-mobile) {
+          @media  (max-width: $min-desktop) {
             flex-direction: column;
             align-items: flex-start;
+            padding: .5rem;
           }
           > P {
             margin: 0;
             @media (max-width: $max-mobile) {
               margin: 0.5rem 0 0 0;
             }
+            &::before{
+              content: "\00a0";
+              @media (max-width: $max-mobile) {
+                content: '';
+              }
+            }
           }
 
           .seperator {
-            @media (max-width: $max-mobile) {
+            @media (max-width: $min-desktop) {
               display: none;
             }
           }
+
+          &.desktop{
+            @media (max-width: $min-desktop) {
+              display: none;
+            }
+          }
+
+
         }
         .btn-list {
           margin-left: auto;

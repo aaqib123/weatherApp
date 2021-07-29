@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { ActivatedRoute, convertToParamMap, Params } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { DetailViewComponent } from './detail-view.component';
 import { ReplaySubject } from 'rxjs/internal/ReplaySubject';
@@ -27,7 +27,7 @@ const ActivatedRouteSpy = {
 
 const mockStore = {
   select: jasmine.createSpy('select').and.returnValue(weatherObj),
-  subscribe: jasmine.createSpy('subscribe').and.returnValue({}),
+  dispatch: jasmine.createSpy('dispatch'),
 };
 
 describe('DetailViewComponent', () => {
@@ -56,12 +56,9 @@ describe('DetailViewComponent', () => {
     expect(component.cityID).toEqual(0);
   });
 
-  describe('When ngOnInit is invoked', () => {
+  describe('When constructor is invoked', () => {
     describe('and CityID exists in store', () => {
       it('selectCityData is called and route is set', () => {
-        component.ngOnInit();
-        component.cityData$?.subscribe((val)=>console.log(val));
-
         expect(mockStore.select).toHaveBeenCalled();
         expect(ActivatedRouteSpy.params.pipe).toHaveBeenCalled();
       });
@@ -69,11 +66,16 @@ describe('DetailViewComponent', () => {
 
     describe('and CityID DOESNT exist in store', () => {
       it('selectCityData is called and route is not set', () => {
-        component.ngOnInit();
-        // component.cityData$?.subscribe((val)=>{console.log(val)});
         expect(mockStore.select).toHaveBeenCalled();
         expect(ActivatedRouteSpy.params.pipe).toHaveBeenCalled();
       });
+    });
+  });
+
+  describe('refreshCity function is called', () => {
+    it('makes expected calls', () => {
+      component.refreshCity('halifax', 1);
+      expect(mockStore.dispatch).toHaveBeenCalled();
     });
   });
 });

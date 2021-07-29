@@ -1,9 +1,23 @@
-
-
 $max-mobile: 767px;
 $min-desktop: 1024px;
+
+@mixin flex-column {
+  display: flex;
+  flex-direction: column;
+}
 
 @mixin flex-row-center {
   display: flex;
   justify-content: center;
+}
+
+@mixin fade-in {
+  @keyframes fadein {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
 }

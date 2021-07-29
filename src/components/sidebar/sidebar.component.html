@@ -3,7 +3,7 @@
     <form [formGroup]="form">
       <mat-form-field appearance="fill">
         <mat-label>Enter City</mat-label>
-        <input matInput type="text" formControlName="cityName" [value]="form?.get('cityName')?.value | titlecase">
+        <input matInput type="text" formControlName="cityName" [value]="form?.get('cityName')?.value | titlecase" />
         <button matSuffix mat-icon-button aria-label="Add city" (click)="addCity()">
           <mat-icon>add</mat-icon>
         </button>
@@ -11,32 +11,42 @@
     </form>
   </div>
 
+  <mat-label *ngIf="cityCount > 0"> Recent Locations </mat-label>
   <mat-selection-list #cityOptions [multiple]="false" role="list" class="bottom-row"
-    *ngFor="let cityData of allCityData$ | async; let i=index">
-    <mat-list-option role="listitem" class="cityItems" (click)="showCityWeather(cityData.city.id)">
-      <ng-template [ngTemplateOutlet]="cityList" [ngTemplateOutletContext]="{data : cityData}">
+    *ngFor="let cityData of allCityData$ | async; let i = index">
+    <mat-list-option role="listitem" class="cityItems" (click)="showCityWeather(cityData.city.id)"
+      [attr.aria-label]="cityData.city.name">
+      <ng-template [ngTemplateOutlet]="cityList" [ngTemplateOutletContext]="{ data: cityData,index: i }">
       </ng-template>
     </mat-list-option>
   </mat-selection-list>
 
   <div class="clear-all">
-    <button *ngIf="cityCount > 0" mat-button color="warn" (click)="deleteAllCities()">Delete all</button>
+    <button *ngIf="cityCount > 0" mat-button color="warn" (click)="deleteAllCities()">
+      Delete all
+    </button>
   </div>
 </div>
 
-<ng-template #cityList let-cityData="data">
+<ng-template #cityList let-cityData="data" let-index="index">
   <div class="cityoption-container">
+    <div>
+      <img class="list-icon" [src]="iconCode[cityData.list[0]?.weather[0]?.id]" />
+    </div>
     <div class="list-text">
-      <h4 class="city-name-heading">{{cityData.city.name}}&nbsp;</h4>
-      <p class="seperator">&nbsp;-&nbsp;</p>
-      <p>&nbsp;{{cityData.list[0].temp.day | number : '1.0-0'}}C</p>
-      <p>&nbsp;{{cityData.list[0]?.weather[0]?.main}}</p>
+      <h4 class="city-name-heading">{{ cityData.city.name }}</h4>
+      <p class="seperator">-</p>
+      <p>
+        {{ cityData.list[0]?.temp.day | number: "1.0-0"}}<sup>{{ temperatureUnit }}</sup>
+      </p>
+      <p>{{ cityData.list[0]?.weather[0]?.main }}</p>
     </div>
     <div class="btn-list">
-      <button mat-icon-button (click)="refreshCity($event, cityData.city.name, cityData.city.id)">
+      <button mat-icon-button aria-label="refresh city weather"
+        (click)="refreshCity($event, cityData.city.name, cityData.city.id)">
         <mat-icon>refresh</mat-icon>
       </button>
-      <button mat-icon-button (click)="deleteCity(cityData.city.id)">
+      <button mat-icon-button aria-label="Delete city" (click)="deleteCity(cityData.city.id)">
         <mat-icon>close</mat-icon>
       </button>
     </div>

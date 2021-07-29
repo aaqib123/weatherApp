@@ -5,6 +5,9 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { SidebarComponent } from './sidebar.component';
 import { ReplaySubject } from 'rxjs';
+import { mockStoreData } from 'src/mockData';
+import { of } from 'rxjs';
+import { selectCityData } from 'src/store/weather.selector';
 
 const navigateStub = jasmine.createSpy('navigate');
 
@@ -19,15 +22,12 @@ formBuilder.group({
 });
 
 const subject = new ReplaySubject<any>(1);
+
 const mockStore = {
   pipe: jasmine.createSpy('pipe').and.returnValue(subject),
   dispatch: jasmine.createSpy('dispatch'),
   select: jasmine.createSpy('select').and.returnValue(subject),
-  subscribe: jasmine.createSpy('subscribe').and.returnValue({}),
 };
-// const mockRouter = {
-//   navigate : jasmine.createSpy('navigate')
-// }
 
 describe('SidebarComponent', () => {
   let component: SidebarComponent;
@@ -44,6 +44,7 @@ describe('SidebarComponent', () => {
       ],
     });
     fixture = TestBed.createComponent(SidebarComponent);
+
     component = fixture.componentInstance;
   });
 
@@ -53,6 +54,17 @@ describe('SidebarComponent', () => {
 
   it(`cityCount has default value`, () => {
     expect(component.cityCount).toEqual(0);
+  });
+
+  describe('When ngOnInit is invoked', () => {
+    it(`makes expected calls`, () => {
+      component.allCityData$ = of(
+        selectCityData.projector(mockStoreData.weatherState)
+      );
+      component.ngOnInit();
+      fixture.detectChanges();
+      expect(component.cityCount).toBe(1);
+    });
   });
 
   describe('When addCity funciton is called', () => {
@@ -72,31 +84,39 @@ describe('SidebarComponent', () => {
     });
   });
 
-  describe('showCityWeather', () => {
+  describe('showCityWeather function is called', () => {
     it('makes expected calls', () => {
       component.showCityWeather(1);
       expect(navigateStub).toHaveBeenCalledWith([1]);
     });
   });
 
-  describe('refreshCity', () => {
+  describe('refreshCity function is called', () => {
     it('makes expected calls', () => {
       component.refreshCity(new Event('click'), 'halifax', 1);
       expect(mockStore.dispatch).toHaveBeenCalled();
     });
   });
 
-  describe('deleteCity', () => {
+  describe('deleteCity function is called', () => {
     it('makes expected calls', () => {
       component.deleteCity(1);
       expect(mockStore.dispatch).toHaveBeenCalled();
     });
   });
 
-  describe('deleteAllCities', () => {
+  describe('deleteAllCities function is called', () => {
     it('makes expected calls', () => {
       component.deleteAllCities();
       expect(mockStore.dispatch).toHaveBeenCalled();
+    });
+  });
+
+  describe('resetPath function is called', () => {
+    it('makes expected calls', () => {
+      const route = new mockRouter();
+      component.resetPath();
+      expect(route.navigate).toHaveBeenCalled();
     });
   });
 });
