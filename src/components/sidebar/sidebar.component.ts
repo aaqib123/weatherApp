@@ -1,6 +1,6 @@
 import { analyzeAndValidateNgModules } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
@@ -36,7 +36,7 @@ export class SidebarComponent implements OnInit{
     this.iconCode = iconCodes;
 
     this.form = this.fb.group({
-      cityName: [null],
+      cityName: [null,Validators.required],
     });
 
     //  fetch all city data from the store
